@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main>
+    <div class="container">
+
+      <!--Navbar-->
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5 mt-5">
+
+        <!-- Navbar brand -->
+        <span class="navbar-brand">Categories:</span>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">All
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Skin Care</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Fashion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Phones and Computers</a>
+            </li>
+
+          </ul>
+          <!-- Links -->
+
+          <form class="form-inline my-2 my-lg-0">
+            <div class="md-form my-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            </div>
+          </form>
+        </div>
+        <!-- Collapsible content -->
+
+      </nav>
+      <!--/.Navbar-->
+   <!-- Section-->
+   <section class="">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {% for item in object_list %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Sale badge-->
+                    <a href="{{ item.get_absolute_url }}" class="text-decoration-none">
+                    <div class="badge {{ item.get_label_display }}-color position-absolute" style="top: 0.5rem; right: 0.5rem">New</div>
+                    </a>
+                    <!-- Product image-->
+                    <a href="{{ item.get_absolute_url }}">
+                    <img class="card-img-top" src="{{ item.image.url }}" alt="..." />
+                    </a>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <a href="{{ item.get_absolute_url }}" class="text-decoration-none ">
+                            <h5 class="fw-bolder">{{ item.title }}</h5>
+                            </a>
+                            <a href="{{ item.get_absolute_url }}" class="text-decoration-none grey-text">
+                              <h6>{{ item.get_category_display }}</h6>
+                            </a>
+                            <!-- Product reviews-->
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                            </div>
+                            <!-- Product price-->
+                            <span class="text-danger text-decoration-line-through">$20.00</span>
+                            <strong> ${% if item.discount_price %}
+                            {{ item.discount_price }}
+                            {% else %}
+                            {{ item.price }}
+                            {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                          <a class="btn btn-outline-info text-capitalize" href="{{ item.get_add_to_cart_url }}">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!--Pagination-->
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+        <span class="page-link">Previous</span>
+        </a>
+      </li>
+      {% endif %}
+      
+      <li class="page-item">
+      <a class="page-item active" aria-current="page" href="?page={{ page_obj.number }}">
+      <span class="page-link">{{ page_obj.number }}</span>
+    </a>
+  </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+          <span class="page-link">Next</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+</nav>
+{% endif %}
+      <!--Pagination-->
+    </div>
+  </main>
+
+{% endblock content %}
+
+
